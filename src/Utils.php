@@ -32,4 +32,11 @@ class Utils {
 		return $this->files ?: $this->files = new Utils\Files;
 	}
 
+	/**
+	 * @return \XrTools\Utils\Arrays
+	 */
+	private $arrays; function arrays(){
+		return $this->arrays ?: $this->arrays = new Utils\Arrays;
+	}
+
 }

@@ -10,6 +10,7 @@ namespace XrTools\Utils;
  */
 class Files {
 
+
 	/**
 	 * [dir_create description]
 	 * @param  [type] $new_path [description]
@@ -39,5 +40,29 @@ class Files {
 		return true;
 	}
 
-	// :TODO:
+	/**
+	 * ob_include_file()
+	 *
+	 * Include file and return buffered output
+	 * @param  string $path
+	 * @param  array  $arr_lenta 
+	 * @return [type]            
+	 */
+	function ob_include(string $path, $arr_lenta = []){
+		// not found
+		if(!is_file($path)){
+			return false;
+		}
+
+		// buffered include
+		ob_start();
+		include $path;
+		return ob_get_clean();
+	}
+
+
+
+
+
+	// :TODO: WIP
 }
