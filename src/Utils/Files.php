@@ -16,7 +16,7 @@ class Files {
 	 * @param  [type] $new_path [description]
 	 * @return [type]           [description]
 	 */
-	function dir_create($new_path){
+	function dirCreate($new_path){
 		
 		if(!is_dir($new_path)){
 			$arr_path = explode(DIRECTORY_SEPARATOR, $new_path);
