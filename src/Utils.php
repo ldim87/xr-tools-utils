@@ -39,4 +39,11 @@ class Utils {
 		return $this->arrays ?: $this->arrays = new Utils\Arrays;
 	}
 
+	/**
+	 * @return \XrTools\Utils\Remotes
+	 */
+	private $remote; function remote(){
+		return $this->remote ?: $this->remote = new Utils\Remote;
+	}
+
 }
