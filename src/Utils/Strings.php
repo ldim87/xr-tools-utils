@@ -15,7 +15,7 @@ class Strings {
 	 * @param  [type] $str [description]
 	 * @return [type]      [description]
 	 */
-	function ival($str){
+	function filter($str){
 		return htmlspecialchars($str, ENT_QUOTES);
 	}
 
@@ -25,7 +25,7 @@ class Strings {
 	 * @param  boolean $positive Demand number to be greater than 0
 	 * @return boolean           Status result
 	 */
-	function is_num($str, $positive = false){
+	function isNum($str, $positive = false){
 		return $str == '0' . $str && (!$positive || $str > 0);
 	}
 
