@@ -31,5 +31,15 @@ class Strings {
 
 	// :TODO:REFACTOR: continue
 
-	
+    /**
+     * Проверка валидности даты
+     * @param $date
+     * @param string $format
+     * @return bool
+     */
+    function isValidDate($date, $format = 'Y-m-d H:i:s')
+    {
+        $d = \DateTime::createFromFormat($format, $date);
+        return $d && $d->format($format) == $date;
+    }
 }
