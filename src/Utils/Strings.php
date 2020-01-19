@@ -80,10 +80,29 @@ class Strings {
 		echo $this->jsonEncode($array);
 	}
 
+	/**
+	 * [jsonEncode description]
+	 * @param  array  $array [description]
+	 * @return [type]        [description]
+	 */
 	function jsonEncode(array $array){
 		return json_encode($array, JSON_UNESCAPED_UNICODE);
 	}
 
+	/**
+	 * Проверка валидности даты
+	 * @param $date
+	 * @param string $format
+	 * @return bool
+	 */
+	function isValidDate($date, $format = 'Y-m-d H:i:s')
+	{
+		$d = \DateTime::createFromFormat($format, $date);
+		return $d && $d->format($format) == $date;
+	}
+
+
 	// :TODO:REFACTOR: continue
+	
 	
 }
