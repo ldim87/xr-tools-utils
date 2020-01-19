@@ -29,7 +29,61 @@ class Strings {
 		return $str == '0' . $str && (!$positive || $str > 0);
 	}
 
-	// :TODO:REFACTOR: continue
+	/**
+	 * Перевод числа в байты, килобайты, мегабайты, гигабайты
+	 * @param  integer  $num     	Number
+	 * @param  integer $decimals  	Sets the number of decimal points. Default: 0 (auto)
+	 * @param  integer $precision 	Precision:
+	 *                             	<ul>
+	 *                             		<li> <strong> 0 </strong> - Automatic precision by the number length (default)
+	 *                             		<li> <strong> 1 </strong> - Bytes
+	 *                             		<li> <strong> 2 </strong> - Kilobytes
+	 *                             		<li> <strong> 3 </strong> - Megabytes
+	 *                             		<li> <strong> 4 </strong> - Gigabytes
+	 *                             	</ul>
+	 * @return string           	Converted number to bytes
+	 */
+	function nameToBit($num, $decimals = 0, $precision = 0){
+		
+		$precision = $precision ? $precision : ceil(strlen($num) / 3);
 
+		switch ($precision){
+			case 1: $return = number_format($num, 0, '.', ' ') . " B";
+				break;
+			case 2: $num = $num / 1024;
+				$return = number_format($num, $decimals ? $decimals : 1, '.', ' ') . " KB";
+				break;
+			case 3: $num = $num / 1024 / 1024;
+				$return = number_format($num, $decimals ? $decimals : 2, '.', ' ') . " MB";
+				break;
+			case 4:
+			default: $num = $num / 1024 / 1024 / 1024;
+				$return = number_format($num, $decimals ? $decimals : 3, '.', ' ') . " GB";
+				break;
+		}
+
+		return $return;
+	}
+
+	/**
+	 * Выводит JSON
+	 * @param $array
+	 * @param bool $header
+	 * @return bool
+	 */
+	function echoJson(array $array, bool $header = false)
+	{
+		if (! empty($header)) {
+			header('Content-Type: application/json');
+		}
+
+		echo $this->jsonEncode($array);
+	}
+
+	function jsonEncode(array $array){
+		return json_encode($array, JSON_UNESCAPED_UNICODE);
+	}
+
+	// :TODO:REFACTOR: continue
 	
 }
