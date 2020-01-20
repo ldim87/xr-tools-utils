@@ -101,8 +101,26 @@ class Strings {
 		return $d && $d->format($format) == $date;
 	}
 
+	/**
+	 * Генератор рандомного текста
+	 * @param  integer $length     Length of the output random text
+	 * @param  string  $characters Used characters in the output random text. Default: "abcdefghijklmnopqrstuvwxyz0123456789"
+	 * @return string              Random text
+	 */
+	function randomString($length, $characters = 'abcdefghijklmnopqrstuvwxyz0123456789'){
+		
+		$num_characters = strlen($characters) - 1;
+		$return = '';
+		
+		while (strlen($return) < $length){
+			$return .= $characters[mt_rand(0, $num_characters)];
+		}
+		
+		return $return;
+	}
+
 
 	// :TODO:REFACTOR: continue
 	
-	
+
 }
