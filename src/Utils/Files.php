@@ -12,7 +12,7 @@ namespace XrTools\Utils;
 class Files
 {
 	/**
-	 * [dir_create description]
+	 * [dirCreate description]
 	 * @param  [type] $new_path [description]
 	 * @return [type]           [description]
 	 */
@@ -63,7 +63,7 @@ class Files
 
         $dirname = pathinfo($new_path, PATHINFO_DIRNAME);
 
-        if ($dirname && ! dir_create($dirname)) {
+        if ($dirname && ! $this->dirCreate($dirname)) {
             return false;
         }
 
@@ -141,7 +141,7 @@ class Files
         }
 
         // cache expired
-        if ($this->utils->inst_time() > (filemtime($file_path) + $expire_time)) {
+        if (time() > (filemtime($file_path) + $expire_time)) {
             return false;
         }
 
@@ -159,7 +159,7 @@ class Files
     {
         $file_path = ($dir_path ?? 'cache') . '/' . $file_name . '.html';
 
-        if (! dir_create(pathinfo($file_path, PATHINFO_DIRNAME))) {
+        if ( !$this->dirCreate(pathinfo($file_path, PATHINFO_DIRNAME))) {
             return false;
         }
 
@@ -197,7 +197,7 @@ class Files
             return false;
 
         // пытаемся создать файл
-        if (! is_file($path) && ! dir_create(pathinfo($path, PATHINFO_DIRNAME)))
+        if (! is_file($path) && !$this->dirCreate(pathinfo($path, PATHINFO_DIRNAME)))
             return false;
 
         //пишем в файл
