@@ -153,8 +153,8 @@ class Strings
         $str_2 = mb_strtolower($str_2);
 
         // транслитирируем
-        $str_1 = translit($str_1);
-        $str_2 = translit($str_2);
+        $str_1 = $this->translit($str_1);
+        $str_2 = $this->translit($str_2);
 
         // если ищем влючение
         if ($search_partly) {
@@ -226,7 +226,7 @@ class Strings
         $pos = mb_strpos($subject, $search);
 
         if ($pos !== false) {
-            return mb_substr_replace($subject, $replace, $pos, mb_strlen($search));
+            return $this->substrReplace($subject, $replace, $pos, mb_strlen($search));
         }
         else {
             return $subject;
