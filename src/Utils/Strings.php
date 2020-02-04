@@ -124,8 +124,6 @@ class Strings
 		return $return;
 	}
 
-	// :TODO:REFACTOR: continue
-
     /**
      * Перевод даты в заданном формате в дату в MySQL формате
      * @param  string $date        Input date
