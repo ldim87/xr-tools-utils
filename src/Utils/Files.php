@@ -87,7 +87,7 @@ class Files
                 continue;
 
             if (is_dir("$dir/$file"))
-                dir_remove("$dir/$file");
+                $this->dirRemove("$dir/$file");
             else
                 unlink("$dir/$file");
         }
