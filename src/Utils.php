@@ -40,10 +40,17 @@ class Utils {
 	}
 
 	/**
-	 * @return \XrTools\Utils\Remotes
+	 * @return \XrTools\Utils\Remote
 	 */
 	private $remote; function remote(){
 		return $this->remote ?: $this->remote = new Utils\Remote;
+	}
+	
+	/**
+	 * @return \XrTools\Utils\DebugMessages
+	 */
+	private $dbg; function dbg(){
+		return $this->dbg ?: $this->dbg = new Utils\DebugMessages;
 	}
 
 }
