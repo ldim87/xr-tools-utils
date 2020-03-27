@@ -113,33 +113,44 @@ class Arrays
         return $result;
     }
 
-    /**
-     * Индексирует массив по заданному ключу элемента в данном массиве.
-     * Пример: <br>
-     * 	$original_array = [ 0 => ['id'=>1, 'name'=>'test 1'], 1 => ['id'=>2, 'name'=>'test 2'] ] <br>
-     * 	$result_array = arr_index( $original_array, 'id' ) <br>
-     *  => [ <b>1</b> => ['id'=>1, 'name'=>'test 1'], <b>2</b> => ['id'=>2, 'name'=>'test 2'] ]
-     * @param  array   $arr    Array to index
-     * @param  string  $by_key Items array key name to index the $arr by
-     * @return array           Indexed array
-     */
-    function index($arr, $by_key)
-    {
-        if(!$by_key || !is_array($arr)){
-            return $arr;
-        }
+	/**
+	 * Индексирует массив по заданному ключу элемента в данном массиве.
+	 * Пример: <br>
+	 * 	$original_array = [ 0 => ['id'=>1, 'name'=>'test 1'], 1 => ['id'=>2, 'name'=>'test 2'] ] <br>
+	 * 	$result_array = arr_index( $original_array, 'id' ) <br>
+	 *  => [ <b>1</b> => ['id'=>1, 'name'=>'test 1'], <b>2</b> => ['id'=>2, 'name'=>'test 2'] ]
+	 * @param  array   $arr       Array to index
+	 * @param  string  $by_key    Items array key name to index the $arr by
+	 * @param  bool    $in_lists  Collect in lists
+	 * @return array              Indexed array
+	 */
+	function index($arr, $by_key, $in_lists = false)
+	{
+		if (! $by_key || ! is_array($arr)) {
+			return $arr;
+		}
 
-        $ret = array();
+		$ret = array();
 
-        foreach ($arr as $item){
-            if(!isset($item[$by_key])){
-                return $arr;
-            }
-            $ret[$item[$by_key]] = $item;
-        }
+		foreach ($arr as $key => $item)
+		{
+			if (! isset($item[ $by_key ])) {
+				return $arr;
+			}
 
-        return $ret;
-    }
+			if ($in_lists) {
+				if (! isset($ret[ $item[ $by_key ] ])) {
+					$ret[ $item[ $by_key ] ] = [];
+				}
+				$ret[ $item[ $by_key ] ][ $key ] = $item;
+			}
+			else {
+				$ret[ $item[ $by_key ] ] = $item;
+			}
+		}
+
+		return $ret;
+	}
 
     /**
      * Приведение элементов массива к int
@@ -242,4 +253,18 @@ class Arrays
         // Удаляем текстовые ключи и возвращаем
         return array_values($tmp);
     }
+
+	/**
+	 * Удаляет элементы массива по значению
+	 * @param array $array
+	 * @param mixed $value
+	 */
+	function unsetByValue(array &$array, $value)
+	{
+		$keys = array_keys($array, $value);
+
+		foreach ($keys as $key) {
+			unset($array[ $key ]);
+		}
+	}
 }
