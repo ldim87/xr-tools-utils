@@ -9,8 +9,11 @@
       "email": "lukin.d87@gmail.com"
     }
   ],
-  "minimum-stability": "dev",
-  "require": {},
+  "require": {
+    "php": "7.*",
+    "ext-curl" : "*",
+    "ext-json": "*"
+  },
   "autoload": {
     "psr-4": {
       "XrTools\\": "src"

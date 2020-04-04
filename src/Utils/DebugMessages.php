@@ -46,7 +46,7 @@ class DebugMessages
 		{
 			$trace = (new \Exception)->getTrace()[0];
 
-			$trace_message = "File {$trace['file']} line {$trace['line']}\n";
+			$trace_message = "\nFile {$trace['file']} line {$trace['line']}";
 
 			if($this->html_enabled)
 			{

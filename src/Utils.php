@@ -49,8 +49,8 @@ class Utils {
 	/**
 	 * @return \XrTools\Utils\DebugMessages
 	 */
-	private $dbg; function dbg(){
-		return $this->dbg ?: $this->dbg = new Utils\DebugMessages;
+	private $dbg; function dbg(array $opt = []){
+		return $this->dbg ?: $this->dbg = new Utils\DebugMessages($opt);
 	}
 
 }
