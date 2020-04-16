@@ -114,38 +114,48 @@ class Arrays
 	}
 
 	/**
-	 * Индексирует массив по заданному ключу элемента в данном массиве.
+	 * Индексирует массив по заданным ключам элемента в данном массиве.
 	 * Пример: <br>
 	 * 	$original_array = [ 0 => ['id'=>1, 'name'=>'test 1'], 1 => ['id'=>2, 'name'=>'test 2'] ] <br>
 	 * 	$result_array = arr_index( $original_array, 'id' ) <br>
 	 *  => [ <b>1</b> => ['id'=>1, 'name'=>'test 1'], <b>2</b> => ['id'=>2, 'name'=>'test 2'] ]
 	 * @param  array   $arr       Array to index
-	 * @param  string  $by_key    Items array key name to index the $arr by
+	 * @param  string  $columns   Items array key name to index the $arr by
 	 * @param  bool    $in_lists  Collect in lists
+	 * @param  string  $index_implode_glue
 	 * @return array              Indexed array
 	 */
-	function index($arr, $by_key, $in_lists = false)
+	function index($arr, $columns, $in_lists = false, $index_implode_glue = ',')
 	{
-		if (! $by_key || ! is_array($arr)) {
-			return $arr;
+		if (is_string($columns)) {
+			$columns = [ $columns ];
 		}
 
-		$ret = array();
+		$params = [];
+
+		$params []= function() use ($index_implode_glue) {
+			return implode($index_implode_glue, func_get_args());
+		};
+
+		foreach ($columns as $val) {
+			$params []= array_column($arr, $val);
+		}
+
+		$tmp = call_user_func_array('array_map', $params);
+		$ret = [];
 
 		foreach ($arr as $key => $item)
 		{
-			if (! isset($item[ $by_key ])) {
-				return $arr;
-			}
-
-			if ($in_lists) {
-				if (! isset($ret[ $item[ $by_key ] ])) {
-					$ret[ $item[ $by_key ] ] = [];
+			if ($in_lists)
+			{
+				if (! isset($ret[ $tmp[ $key ] ])) {
+					$ret[ $tmp[ $key ] ] = [];
 				}
-				$ret[ $item[ $by_key ] ][ $key ] = $item;
+
+				$ret[ $tmp[ $key ] ][ $key ] = $item;
 			}
 			else {
-				$ret[ $item[ $by_key ] ] = $item;
+				$ret[ $tmp[ $key ] ] = $item;
 			}
 		}
 
@@ -258,13 +268,73 @@ class Arrays
 	 * Удаляет элементы массива по значению
 	 * @param array $array
 	 * @param mixed $value
+	 * @param bool  $save_keys
 	 */
-	function unsetByValue(array &$array, $value)
+	function unsetByValue(&$arr, $value, $save_keys = true)
 	{
-		$keys = array_keys($array, $value);
+		$keys = array_keys($arr, $value);
 
 		foreach ($keys as $key) {
-			unset($array[ $key ]);
+			unset($arr[ $key ]);
 		}
+
+		if (! $save_keys) {
+			$arr = array_values($arr);
+		}
+	}
+
+	/**
+	 * Фильтрует список ids
+	 * @param $arr
+	 * @param bool $unique
+	 * @return array
+	 */
+	function ids($arr, $unique = true)
+	{
+		$arr = $this->itemsIntval($arr);
+
+		if ($unique) {
+			$arr = array_unique($arr);
+		}
+
+		return array_filter(
+			$arr,
+			function ($var) {
+				return $var > 0;
+			}
+		);
+	}
+
+	/**
+	 * Выбирает из массива заданные столбцы
+	 * @param $arr
+	 * @param $columns
+	 * @param bool $list
+	 * @return array|mixed
+	 */
+	function selectColumns($arr, $columns, $list = false)
+	{
+		if (! $list) {
+			$arr = [ $arr ];
+		}
+
+		$result = [];
+		$tmp = array_flip($columns);
+
+		foreach ($arr as $key1 => $item)
+		{
+			$row = [];
+
+			foreach ($tmp as $key2 => $val)
+			{
+				if (isset($item[ $key2 ])) {
+					$row[ $key2 ] = $item[ $key2 ];
+				}
+			}
+
+			$result[ $key1 ] = $row;
+		}
+
+		return $list ? $result : $result[0];
 	}
 }
