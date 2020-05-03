@@ -24,7 +24,7 @@ class Remote
 	 *   TRUE if the user agent is a bot, FALSE if not.
 	 */
 	function detectCrawler($user_agent = null)
-    {
+	{
 		// User lowercase string for comparison.
 		$user_agent = strtolower($user_agent ?? $_SERVER['HTTP_USER_AGENT']);
 
@@ -56,61 +56,61 @@ class Remote
 	
 	// :TODO: WIP
 
-    /**
-     * Get remote contents via cURL
-     * @param  [type] $url [description]
-     * @return [type]      [description]
-     */
-    function fileGetContents($url)
-    {
-        // set options
-        $options = array(
-            CURLOPT_RETURNTRANSFER => true,     // return web page
-            CURLOPT_HEADER         => false,    // don't return headers
-            CURLOPT_FOLLOWLOCATION => true,     // follow redirects
-            CURLOPT_ENCODING       => "",       // handle all encodings
-            CURLOPT_USERAGENT      => "1000.menu Embed Spider", // who am i
-            CURLOPT_AUTOREFERER    => true,     // set referer on redirect
-            CURLOPT_CONNECTTIMEOUT => 10,      // timeout on connect
-            CURLOPT_TIMEOUT        => 20,      // timeout on response
-            CURLOPT_MAXREDIRS      => 5,       // stop after 10 redirects
-            CURLOPT_PROTOCOLS      => CURLPROTO_HTTP | CURLPROTO_HTTPS
-        );
+	/**
+	 * Get remote contents via cURL
+	 * @param  [type] $url [description]
+	 * @return [type]      [description]
+	 */
+	function fileGetContents($url)
+	{
+		// set options
+		$options = array(
+			CURLOPT_RETURNTRANSFER => true,     // return web page
+			CURLOPT_HEADER         => false,    // don't return headers
+			CURLOPT_FOLLOWLOCATION => true,     // follow redirects
+			CURLOPT_ENCODING       => "",       // handle all encodings
+			CURLOPT_USERAGENT      => "1000.menu Embed Spider", // who am i
+			CURLOPT_AUTOREFERER    => true,     // set referer on redirect
+			CURLOPT_CONNECTTIMEOUT => 10,      // timeout on connect
+			CURLOPT_TIMEOUT        => 20,      // timeout on response
+			CURLOPT_MAXREDIRS      => 5,       // stop after 10 redirects
+			CURLOPT_PROTOCOLS      => CURLPROTO_HTTP | CURLPROTO_HTTPS
+		);
 
-        $ch = curl_init( $url );
-        curl_setopt_array( $ch, $options );
+		$ch = curl_init( $url );
+		curl_setopt_array( $ch, $options );
 
-        $data = curl_exec($ch);
-        curl_close($ch);
+		$data = curl_exec($ch);
+		curl_close($ch);
 
-        return $data;
-    }
+		return $data;
+	}
 
-    /**
-     * Загрузка заголовков с УРЛ адреса
-     * @param  string $url URL address
-     * @return array       Info array (see curl_getinfo() PHP doc)
-     */
-    function checkUrlHeaders($url)
-    {
-        // disable local
-        if (mb_substr($url, 0, 1) == '/') {
-            return array();
-        }
+	/**
+	 * Загрузка заголовков с УРЛ адреса
+	 * @param  string $url URL address
+	 * @return array       Info array (see curl_getinfo() PHP doc)
+	 */
+	function checkUrlHeaders($url)
+	{
+		// disable local
+		if (mb_substr($url, 0, 1) == '/') {
+			return array();
+		}
 
-        // check headers
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_NOBODY, true);
-        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 5);
-        curl_setopt($curl, CURLOPT_PROTOCOLS, CURLPROTO_HTTP | CURLPROTO_HTTPS);
+		// check headers
+		$curl = curl_init();
+		curl_setopt($curl, CURLOPT_URL, $url);
+		curl_setopt($curl, CURLOPT_NOBODY, true);
+		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 5);
+		curl_setopt($curl, CURLOPT_PROTOCOLS, CURLPROTO_HTTP | CURLPROTO_HTTPS);
 
-        curl_exec($curl);
-        $info = curl_getinfo($curl);
-        curl_close($curl);
+		curl_exec($curl);
+		$info = curl_getinfo($curl);
+		curl_close($curl);
 
-        return $info;
-    }
+		return $info;
+	}
 }
