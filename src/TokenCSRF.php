@@ -13,15 +13,15 @@ namespace XrTools;
 class TokenCSRF
 {
 	
-	protected $secretKey = 'xmr9nhy76wlnjy789mjylo',
-		$varName = '_token',
-		$token = '';
+	protected $secretKey = '';
 
-	function __construct($secretKey = null, $varName = null)
+	protected $varName = '_token';
+
+	protected $token = '';
+
+	function __construct(string $secretKey, string $varName = null)
 	{
-		if (isset($secretKey)) {
-			$this->secretKey = $secretKey;
-		}
+		$this->secretKey = $secretKey;
 		
 		if (isset($varName)) {
 			$this->varName = $varName;
