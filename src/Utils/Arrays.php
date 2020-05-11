@@ -127,6 +127,11 @@ class Arrays
 	 */
 	function index($arr, $columns, $in_lists = false, $index_implode_glue = ',')
 	{
+
+		if(empty($arr)){
+			return [];
+		}
+
 		if (is_string($columns)) {
 			$columns = [ $columns ];
 		}
