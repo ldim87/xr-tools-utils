@@ -445,4 +445,13 @@ class Strings
 
 		return number_format($number, $decimals, $dec_point, $thousands_sep);
 	}
+
+	/**
+	 * Converts absolute URLs to relative
+	 * @param  string $text
+	 * @return string
+	 */
+	function urlConvertToRelative(string $text){
+		return preg_replace('/(https?\:)?\/\/([^\/\s\'"]+)/iu', '', $text);
+	}
 }
