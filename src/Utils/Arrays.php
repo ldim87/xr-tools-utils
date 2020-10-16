@@ -311,6 +311,26 @@ class Arrays
 	}
 
 	/**
+	 * @param $arr
+	 * @param bool $unique
+	 * @return array
+	 */
+	function words($arr, $unique = true)
+	{
+		$arr = array_map('trim', $arr);
+
+		$arr = array_filter($arr, function($item) {
+			return $item != '';
+		});
+
+		if ($unique) {
+			$arr = array_unique($arr);
+		}
+
+		return $arr;
+	}
+
+	/**
 	 * Выбирает из массива заданные столбцы
 	 * @param $arr
 	 * @param $columns
