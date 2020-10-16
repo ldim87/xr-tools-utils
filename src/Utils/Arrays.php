@@ -311,6 +311,26 @@ class Arrays
 	}
 
 	/**
+	 * @param $arr
+	 * @param bool $unique
+	 * @return array
+	 */
+	function words($arr, $unique = true)
+	{
+		$arr = array_map('trim', $arr);
+
+		$arr = array_filter($arr, function($item) {
+			return $item != '';
+		});
+
+		if ($unique) {
+			$arr = array_unique($arr);
+		}
+
+		return $arr;
+	}
+
+	/**
 	 * Выбирает из массива заданные столбцы
 	 * @param $arr
 	 * @param $columns
@@ -341,5 +361,30 @@ class Arrays
 		}
 
 		return $list ? $result : $result[0];
+	}
+
+	/**
+	 * @param $arr
+	 * @param $pattern
+	 * @param bool $by_keys
+	 * @return array
+	 */
+	function grep($arr, $pattern, $by_keys = false)
+	{
+		if ($by_keys)
+		{
+			return array_intersect_key(
+				$arr,
+				array_flip(
+					preg_grep(
+						$pattern,
+						array_keys($arr)
+					)
+				)
+			);
+		}
+		else {
+			return preg_grep($pattern, $arr);
+		}
 	}
 }

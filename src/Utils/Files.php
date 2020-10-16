@@ -21,7 +21,7 @@ class Files
 		if (! is_dir($new_path))
 		{
 			$arr_path = explode(DIRECTORY_SEPARATOR, $new_path);
-			
+
 			if ($arr_path)
 			{
 				$tmp = '.';
@@ -46,7 +46,7 @@ class Files
 
 		return true;
 	}
-	
+
 	// :TODO: WIP
 
 	/**
