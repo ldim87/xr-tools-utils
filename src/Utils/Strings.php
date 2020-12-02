@@ -29,13 +29,22 @@ class Strings
 
 	/**
 	 * Быстрая проверка чисел (больше или равно 0)
-	 * @param  mixed   $str      Checking value if it is a non-negative number (&gt;=0)
+	 * @param  mixed   $val      Checking value if it is a non-negative number (&gt;=0)
 	 * @param  boolean $positive Demand number to be greater than 0
 	 * @return boolean           Status result
 	 */
-	function isNum($str, $positive = false)
+	function isNum($val, bool $positive = false): bool
 	{
-		return $str == '0' . $str && (!$positive || $str > 0);
+		return $val == '0' . $val && (! $positive || $val > 0);
+	}
+
+	/**
+	 * @param $val
+	 * @return bool
+	 */
+	function isID($val): bool
+	{
+		return $this->isNum($val, true);
 	}
 
 	/**
@@ -422,7 +431,7 @@ class Strings
 	 * @param  string|null $thousands_sep
 	 * @return string
 	 */
-	function numberFormat (float $number, string $thousands_sep = null){
+	function numberFormat(float $number, string $thousands_sep = null){
 
 		$thousands_sep = $thousands_sep ?? $this->numformat_thousands_sep ?? " ";
 
@@ -437,7 +446,7 @@ class Strings
 	 * @param  string|null $thousands_sep
 	 * @return string
 	 */
-	function floatFormat (float $number, int $decimals = null, string $dec_point = null, string $thousands_sep = null){
+	protected function floatFormat (float $number, int $decimals = null, string $dec_point = null, string $thousands_sep = null){
 
 		$decimals = $decimals ?? $this->floatformat_decimals ?? 0;
 		$dec_point = $dec_point ?? $this->floatformat_dec_point ?? ".";
