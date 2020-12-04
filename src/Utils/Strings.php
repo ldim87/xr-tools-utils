@@ -18,6 +18,62 @@ class Strings
 		$numformat_thousands_sep;
 
 	/**
+	 * Constructor
+	 * @param array $opt See setOptions()
+	 */
+	function __construct($opt = null)
+	{
+		if(isset($opt)){
+			$this->setOptions($opt);
+		}
+	}
+
+	/**
+	 * Sets options
+	 * @param array $opt Options
+	 */
+	function setOptions(array $opt = [])
+	{
+		if(isset($opt['numformat_thousands_sep'])){
+			$this->setNumberFormat($opt['numformat_thousands_sep']);
+		}
+
+		if(
+			isset($opt['floatformat_decimals']) &&
+			isset($opt['floatformat_dec_point']) &&
+			isset($opt['floatformat_thousands_sep'])
+		){
+			$this->setFloatFormat(
+				$opt['floatformat_decimals'],
+				$opt['floatformat_dec_point'],
+				$opt['floatformat_thousands_sep']
+			);
+		}
+	}
+
+	/**
+	 * Set default whole number format
+	 * @param int    $decimals      [description]
+	 * @param string $dec_point     [description]
+	 * @param string $thousands_sep [description]
+	 */
+	function setNumberFormat(string $thousands_sep){
+		$this->numformat_thousands_sep = $thousands_sep;
+	}
+
+	/**
+	 * Set default float number format
+	 * @param int    $decimals      [description]
+	 * @param string $dec_point     [description]
+	 * @param string $thousands_sep [description]
+	 */
+	function setFloatFormat(int $decimals, string $dec_point, string $thousands_sep){
+		$this->floatformat_decimals = $decimals;
+		$this->floatformat_dec_point = $dec_point;
+		$this->floatformat_thousands_sep = $thousands_sep;
+	}
+
+	/**
 	 * [ival description]
 	 * @param  [type] $str [description]
 	 * @return [type]      [description]
@@ -399,28 +455,6 @@ class Strings
 		}
 
 		return $return;
-	}
-
-	/**
-	 * Set default whole number format
-	 * @param int    $decimals      [description]
-	 * @param string $dec_point     [description]
-	 * @param string $thousands_sep [description]
-	 */
-	function setNumberFormat(string $thousands_sep){
-		$this->numformat_thousands_sep = $thousands_sep;
-	}
-
-	/**
-	 * Set default float number format
-	 * @param int    $decimals      [description]
-	 * @param string $dec_point     [description]
-	 * @param string $thousands_sep [description]
-	 */
-	function setFloatFormat(int $decimals, string $dec_point, string $thousands_sep){
-		$this->floatformat_decimals = $decimals;
-		$this->floatformat_dec_point = $dec_point;
-		$this->floatformat_thousands_sep = $thousands_sep;
 	}
 
 	/**

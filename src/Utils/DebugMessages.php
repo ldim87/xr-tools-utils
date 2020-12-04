@@ -28,10 +28,21 @@ class DebugMessages
 	protected $trace_enabled = false;
 
 	/**
-	 * DebugMessages constructor.
-	 * @param array $opt
+	 * Constructor
+	 * @param array $opt See setOptions()
 	 */
-	function __construct(array $opt = [])
+	function __construct($opt = null)
+	{
+		if(isset($opt)){
+			$this->setOptions($opt);
+		}
+	}
+
+	/**
+	 * Sets options
+	 * @param array $opt Options
+	 */
+	function setOptions(array $opt = [])
 	{
 		if (isset($opt['trace_enabled'])) {
 			$this->trace_enabled = ! empty($opt['trace_enabled']);
@@ -71,8 +82,11 @@ class DebugMessages
 		// prepend to message
 		$message = (isset($method) ? $method . ': ' : '') . $message;
 
+		$trace_enabled = $this->trace_enabled || !empty($opt['trace_enabled']);
+		$html_enabled = $this->html_enabled || !empty($opt['html_enabled']);
+
 		// tracing
-		if ($this->trace_enabled)
+		if ($trace_enabled)
 		{
 			$except = new \Exception;
 
@@ -85,7 +99,7 @@ class DebugMessages
 
 			$traceString = $this->traceAdaptive($except);
 
-			if ($this->html_enabled) {
+			if ($html_enabled) {
 				$traceString = $this->traceAdaptiveStringToHtml($traceString);
 			}
 			
@@ -114,9 +128,9 @@ class DebugMessages
 	{
 		$traceString = nl2br($traceString);
 
-		$traceString = preg_replace('~(#\d+)~i', '<span style="color: #543333">$1</span>', $traceString);
+		$traceString = preg_replace('~(#\d+)~', '<span class="dbg-trace-num">$1</span>', $traceString);
 
-		$traceString = preg_replace('~(\(\d+\):)~i', '<span style="color: #543333">$1</span>', $traceString);
+		$traceString = preg_replace('~(\(\d+\):)~', '<span class="dbg-trace-line">$1</span>', $traceString);
 
 		return '<span class="dbg-trace-info">'.$traceString.'</span>';
 	}
