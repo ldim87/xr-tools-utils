@@ -29,13 +29,22 @@ class Strings
 
 	/**
 	 * Быстрая проверка чисел (больше или равно 0)
-	 * @param  mixed   $str      Checking value if it is a non-negative number (&gt;=0)
+	 * @param  mixed   $val      Checking value if it is a non-negative number (&gt;=0)
 	 * @param  boolean $positive Demand number to be greater than 0
 	 * @return boolean           Status result
 	 */
-	function isNum($str, $positive = false)
+	function isNum($val, bool $positive = false): bool
 	{
-		return $str == '0' . $str && (!$positive || $str > 0);
+		return $val == '0' . $val && (! $positive || $val > 0);
+	}
+
+	/**
+	 * @param $val
+	 * @return bool
+	 */
+	function isID($val): bool
+	{
+		return $this->isNum($val, true);
 	}
 
 	/**
