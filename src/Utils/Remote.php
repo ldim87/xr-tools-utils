@@ -91,21 +91,32 @@ class Remote
 	 * @param  string $url URL address
 	 * @return array       Info array (see curl_getinfo() PHP doc)
 	 */
-	function checkUrlHeaders($url)
+	function checkUrlHeaders($url, array $opt = [])
 	{
 		// disable local
 		if (mb_substr($url, 0, 1) == '/') {
 			return array();
 		}
 
+		// options
+		$user_agent = $opt['user_agent'] ?? '';
+		$no_body = $opt['no_body'] ?? true;
+
 		// check headers
 		$curl = curl_init();
 		curl_setopt($curl, CURLOPT_URL, $url);
-		curl_setopt($curl, CURLOPT_NOBODY, true);
 		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 5);
 		curl_setopt($curl, CURLOPT_PROTOCOLS, CURLPROTO_HTTP | CURLPROTO_HTTPS);
+		
+		if($user_agent){
+			curl_setopt($curl, CURLOPT_USERAGENT, $user_agent);
+		}
+		
+		if($no_body){
+			curl_setopt($curl, CURLOPT_NOBODY, true);
+		}
 
 		curl_exec($curl);
 		$info = curl_getinfo($curl);
