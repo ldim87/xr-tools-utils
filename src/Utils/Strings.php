@@ -157,10 +157,10 @@ class Strings
 
 	/**
 	 * [jsonEncode description]
-	 * @param  array  $array [description]
-	 * @return [type]        [description]
+	 * @param mixed $array [description]
+	 * @return false|string [type]        [description]
 	 */
-	function jsonEncode(array $array)
+	function jsonEncode($array)
 	{
 		return json_encode($array, JSON_UNESCAPED_UNICODE);
 	}
