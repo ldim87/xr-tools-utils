@@ -394,9 +394,20 @@ class Arrays
 	}
 
 	/**
-	 * @param array $arr
-	 * @param string $pattern
-	 * @param bool $byKeys
+	 * Выбирает из массива заданные индексы
+	 * @param  array  $arr  
+	 * @param  array  $keys
+	 * @return array
+	 */
+	function selectKeys(array $arr, array $keys)
+	{
+		return array_intersect_key($arr, array_flip($keys));
+	}
+
+	/**
+	 * @param $arr
+	 * @param $pattern
+	 * @param bool $by_keys
 	 * @return array
 	 */
 	function grep(array $arr, string $pattern, bool $byKeys = false): array
