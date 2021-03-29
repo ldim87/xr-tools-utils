@@ -24,14 +24,15 @@ class Files
 
 			if ($arr_path)
 			{
-				$tmp = '.';
+				// relative path prefix
+				$tmp = mb_substr($new_path, 0, 1) == '/' ? '' : '.';
 
 				foreach ($arr_path as $a_val)
 				{
 					// filter
-					$a_val = trim($a_val);
+					$a_val = ltrim(trim($a_val), '.');
 
-					if (! strlen($a_val)) {
+					if (!mb_strlen($a_val)) {
 						continue;
 					}
 

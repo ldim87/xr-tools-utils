@@ -489,37 +489,4 @@ class Strings
 		return number_format($number, $decimals, $dec_point, $thousands_sep);
 	}
 
-	/**
-	 * Converts absolute URLs to relative
-	 * @param  string $text
-	 * @return string
-	 */
-	function urlConvertToRelative(string $text){
-		return preg_replace('/(https?\:)?\/\/([^\/\s\'"]+)/iu', '', $text);
-	}
-
-
-	/**
-	 * @param $str
-	 * @return array
-	 */
-	function parseChapters(string $str)
-	{
-		$items = explode('!$ ', $str);
-
-		unset($items[0]);
-
-		$arr = [];
-
-		foreach ($items as $item)
-		{
-			$exp = explode("\n", $item, 2);
-			$exp = array_pad($exp, 2, '');
-			$exp = array_map('trim', $exp);
-
-			$arr[ $exp[0] ] = $exp[1];
-		}
-
-		return $arr;
-	}
 }
