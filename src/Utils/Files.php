@@ -84,13 +84,16 @@ class Files
 
 		foreach (scandir($dir) as $file)
 		{
-			if ('.' === $file || '..' === $file)
+			if ('.' === $file || '..' === $file){
 				continue;
+			}
 
-			if (is_dir("$dir/$file"))
+			if (is_dir("$dir/$file") && !is_link("$dir/$file")){
 				$this->dirRemove("$dir/$file");
-			else
+			}
+			else {
 				unlink("$dir/$file");
+			}
 		}
 
 		return rmdir($dir);
