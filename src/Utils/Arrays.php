@@ -25,7 +25,7 @@ class Arrays
 		}
 		
 		// дефолт
-		return '<pre>'.print_r($arr,true).'</pre>';
+		return '<pre>'.htmlspecialchars(print_r($arr,true)).'</pre>';
 	}
 
 	/**
