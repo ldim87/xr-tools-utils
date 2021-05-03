@@ -204,4 +204,14 @@ class Files
 		//пишем в файл
 		return file_put_contents($path, $str);
 	}
+
+	/**
+	 * @param string $extension
+	 * @return string
+	 */
+	function generateName(string $extension = ''): string
+	{
+		return md5(microtime(true).'_'.mt_rand().'_'.mt_rand()) . ($extension ? '.'.$extension : '');
+	}
 }
+
