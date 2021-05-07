@@ -489,4 +489,28 @@ class Strings
 		return number_format($number, $decimals, $dec_point, $thousands_sep);
 	}
 
+	/**
+	 * @param $str
+	 * @return array
+	 */
+	function parseChapters(string $str, string $delimiter = '!$ ')
+	{
+		$items = explode($delimiter, $str);
+
+		unset($items[0]);
+
+		$arr = [];
+
+		foreach ($items as $item)
+		{
+			$exp = explode("\n", $item, 2);
+			$exp = array_pad($exp, 2, '');
+			$exp = array_map('trim', $exp);
+
+			$arr[ $exp[0] ] = $exp[1];
+		}
+
+		return $arr;
+	}
+
 }
