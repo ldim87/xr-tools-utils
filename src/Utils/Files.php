@@ -79,7 +79,7 @@ class Files
 	function dirRemove($dir)
 	{
 		if (! is_dir($dir)) {
-			return;
+			return false;
 		}
 
 		foreach (scandir($dir) as $file)

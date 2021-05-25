@@ -84,6 +84,27 @@ class Strings
 	}
 
 	/**
+	 * @param string $string
+	 * @param int|null $length
+	 * @param bool $br
+	 * @return string
+	 */
+	function filterText(string $string, int $length = null, bool $br = true): string
+	{
+		if ($length) {
+			$string = mb_strimwidth($string, 0, $length, '...');
+		}
+
+		$string = $this->filter($string);
+
+		if ($br) {
+			$string = nl2br($string);
+		}
+
+		return $string;
+	}
+
+	/**
 	 * Быстрая проверка чисел (больше или равно 0)
 	 * @param  mixed   $val      Checking value if it is a non-negative number (&gt;=0)
 	 * @param  boolean $positive Demand number to be greater than 0

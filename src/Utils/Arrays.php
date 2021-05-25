@@ -479,6 +479,46 @@ class Arrays
 	}
 
 	/**
+	 * @param string|null $json
+	 * @return array
+	 */
+	function arrayFromJson(string $json = null): array
+	{
+		if (empty($json)) {
+			return [];
+		}
+
+		$arr = json_decode($json, true);
+
+		if (! is_array($arr)) {
+			return [];
+		}
+
+		return $arr;
+	}
+
+	/**
+	 * @param array $list
+	 * @param array $list2
+	 * @param string $column
+	 * @param array $defaultRow
+	 * @return array
+	 */
+	function mergeByColumn(array $list, array $list2, string $column, array $defaultRow = []): array
+	{
+		$list2 = $this->index($list2, $column);
+
+		foreach ($list as $key => $row)
+		{
+			$info = $list2[ $row['id'] ] ?? $defaultRow;
+
+			$list[ $key ] = array_merge($list[ $key ], $info);
+		}
+
+		return $list;
+	}
+
+	/**
 	 * @param array $list
 	 * @param array $ids
 	 * @return array
