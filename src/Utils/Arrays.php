@@ -271,11 +271,11 @@ class Arrays
 
 	/**
 	 * Удаляет элементы массива по значению
-	 * @param array $array
+	 * @param array $arr
 	 * @param mixed $value
-	 * @param bool  $save_keys
+	 * @param bool $saveKeys
 	 */
-	function unsetByValue(&$arr, $value, $save_keys = true)
+	function unsetByValue(array &$arr, $value, bool $saveKeys = true)
 	{
 		$keys = array_keys($arr, $value);
 
@@ -283,18 +283,32 @@ class Arrays
 			unset($arr[ $key ]);
 		}
 
-		if (! $save_keys) {
+		if (! $saveKeys) {
 			$arr = array_values($arr);
 		}
 	}
 
 	/**
-	 * Фильтрует список ids
-	 * @param $arr
+	 * @param string $string
+	 * @param string $separator
 	 * @param bool $unique
 	 * @return array
 	 */
-	function ids($arr, $unique = true)
+	function explodeIds(string $string, string $separator = ',', bool $unique = true): array
+	{
+		return $this->ids(
+			explode($separator, $string),
+			$unique
+		);
+	}
+
+	/**
+	 * Фильтрует список ids
+	 * @param array $arr
+	 * @param bool $unique
+	 * @return array
+	 */
+	function ids(array $arr, bool $unique = true): array
 	{
 		$arr = $this->itemsIntval($arr);
 
@@ -332,35 +346,51 @@ class Arrays
 
 	/**
 	 * Выбирает из массива заданные столбцы
-	 * @param $arr
-	 * @param $columns
+	 * @param array $array
+	 * @param array $columns
+	 * @return array
+	 */
+	function selectColumnsList(array $array, array $columns): array
+	{
+		return $this->selectColumns($array, $columns, true);
+	}
+
+	/**
+	 * Выбирает из массива заданные столбцы
+	 * @param array $array
+	 * @param array $columns
 	 * @param bool $list
 	 * @return array|mixed
 	 */
-	function selectColumns($arr, $columns, $list = false)
+	function selectColumns(array $array, array $columns, bool $list = false)
 	{
 		if (! $list) {
-			$arr = [ $arr ];
+			$array = [ $array ];
 		}
 
 		$result = [];
-		$tmp = array_flip($columns);
 
-		foreach ($arr as $key1 => $item)
+		foreach ($array as $itemKey => $item)
 		{
 			$row = [];
 
-			foreach ($tmp as $key2 => $val)
+			foreach ($columns as $key => $val)
 			{
-				if (isset($item[ $key2 ])) {
-					$row[ $key2 ] = $item[ $key2 ];
+				$get = is_int($key) ? $val : $key;
+
+				if (isset($item[ $get ])) {
+					$row[ $val ] = $item[ $get ];
 				}
 			}
 
-			$result[ $key1 ] = $row;
+			$result[ $itemKey ] = $row;
 		}
 
-		return $list ? $result : $result[0];
+		if (! $list) {
+			return $result[0] ?? null;
+		}
+
+		return $result;
 	}
 
 	/**
@@ -380,22 +410,165 @@ class Arrays
 	 * @param bool $by_keys
 	 * @return array
 	 */
-	function grep($arr, $pattern, $by_keys = false)
+	function grep(array $arr, string $pattern, bool $byKeys = false): array
 	{
-		if ($by_keys)
-		{
-			return array_intersect_key(
-				$arr,
-				array_flip(
-					preg_grep(
-						$pattern,
-						array_keys($arr)
-					)
-				)
-			);
-		}
-		else {
+		if ($byKeys) {
+			$grep = preg_grep($pattern,	array_keys($arr));
+			return array_intersect_key($arr, array_flip($grep));
+		} else {
 			return preg_grep($pattern, $arr);
 		}
 	}
+
+	/**
+	 * Разбить массив на заданное количество частей
+	 * @param array $array
+	 * @param int $pieces
+	 * @param bool $emptyItems
+	 * @return array
+	 */
+	function splitPieces(array $array, int $pieces = 2, $emptyItems = true): array
+	{
+		if ($pieces < 2) {
+			return [ $array ];
+		}
+
+		$newCount = ceil( count($array) / $pieces);
+		$a = array_slice($array, 0, $newCount);
+		$b = $this->splitPieces( array_slice($array, $newCount), $pieces - 1);
+
+		$res = array_merge( [ $a ], $b );
+
+		if (! $emptyItems) {
+			$res = array_filter($res, function($item) {
+				return $item !== [];
+			});
+		}
+
+		return $res;
+	}
+
+	/**
+	 * Получить все вложенные parent_id по parent_id
+	 * @param array $list
+	 * @param array $ids
+	 * @return array
+	 */
+	function categoryNestedParentIds(array $list, array $ids): array
+	{
+		$list = $this->index($list, 'parent_id', true);
+
+		return $this->categoryNestedParentIdsRecursion($list, $ids);
+	}
+
+	/**
+	 * Получить всех детей по parent_id
+	 * @param array $list
+	 * @param array $ids
+	 * @return array
+	 */
+	function categoryChildrenIds(array $list, array $ids): array
+	{
+		$list = $this->index($list, 'parent_id', true);
+
+		$res = $this->categoryChildrenRecursion($list, $ids);
+
+		unset($res[0]);
+
+		return $res;
+	}
+
+	/**
+	 * @param string|null $json
+	 * @return array
+	 */
+	function arrayFromJson(string $json = null): array
+	{
+		if (empty($json)) {
+			return [];
+		}
+
+		$arr = json_decode($json, true);
+
+		if (! is_array($arr)) {
+			return [];
+		}
+
+		return $arr;
+	}
+
+	/**
+	 * @param array $list
+	 * @param array $list2
+	 * @param string $column
+	 * @param array $defaultRow
+	 * @return array
+	 */
+	function mergeByColumn(array $list, array $list2, string $column, array $defaultRow = []): array
+	{
+		$list2 = $this->index($list2, $column);
+
+		foreach ($list as $key => $row)
+		{
+			$info = $list2[ $row['id'] ] ?? $defaultRow;
+
+			$list[ $key ] = array_merge($list[ $key ], $info);
+		}
+
+		return $list;
+	}
+
+	/**
+	 * @param array $list
+	 * @param array $ids
+	 * @return array
+	 */
+	private function categoryNestedParentIdsRecursion(array $list, array $ids): array
+	{
+		$res = [];
+
+		foreach ($ids as $id)
+		{
+			if (isset($list[ $id ]))
+			{
+				$res []= $id;
+
+				$nextIds = array_column($list[ $id ], 'id');
+
+				$res = array_merge(
+					$res,
+					$this->categoryNestedParentIdsRecursion($list, $nextIds)
+				);
+			}
+		}
+
+		return $res;
+	}
+
+	/**
+	 * @param array $list
+	 * @param array $ids
+	 * @return array
+	 */
+	private function categoryChildrenRecursion(array $list, array $ids): array
+	{
+		$res = [];
+
+		foreach ($ids as $id)
+		{
+			$res []= $id;
+
+			if (isset($list[ $id ]))
+			{
+				$newIds = array_column($list[ $id ], 'id');
+
+				$newRes = $this->categoryChildrenRecursion($list, $newIds);
+
+				$res = array_merge($res, $newRes);
+			}
+		}
+
+		return $res;
+	}
 }
+
