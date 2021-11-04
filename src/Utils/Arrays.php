@@ -519,6 +519,41 @@ class Arrays
 	}
 
 	/**
+	 * Рандом из массива
+	 * @param array $array
+	 * @param int $count
+	 * @param bool $saveKeys
+	 * @return array
+	 */
+	function randItems(array $array, int $count, bool $saveKeys = false): array
+	{
+		if (! $array || $count >= count($array)) {
+			return $array;
+		}
+
+		$keys = array_rand($array, $count);
+
+		if (! $keys) {
+			return $array;
+		}
+
+		shuffle($keys);
+
+		$newArray = [];
+
+		foreach ($keys as $key)
+		{
+			if ($saveKeys) {
+				$newArray[ $key ] = $array[ $key ];
+			} else {
+				$newArray []= $array[ $key ];
+			}
+		}
+
+		return $newArray;
+	}
+
+	/**
 	 * @param array $list
 	 * @param array $ids
 	 * @return array
