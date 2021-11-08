@@ -527,14 +527,23 @@ class Arrays
 	 */
 	function randItems(array $array, int $count, bool $saveKeys = false): array
 	{
-		if (! $array || $count >= count($array)) {
+		if (! $array) {
+			return [];
+		}
+
+		if ($count >= count($array)) {
+			shuffle($array);
 			return $array;
 		}
 
 		$keys = array_rand($array, $count);
 
-		if (! $keys) {
-			return $array;
+		if (is_null($keys)) {
+			return [];
+		}
+
+		if (! is_array($keys)) {
+			$keys = (array) $keys;
 		}
 
 		shuffle($keys);
