@@ -534,4 +534,33 @@ class Strings
 		return $arr;
 	}
 
+	/**
+	 * Filter keyword string - allow only letters, spaces and dashes (can also allow numbers). First letter is transformed to upper case.
+	 * @param  string $str keyword name
+	 * @param  array  $opt options: <ul>
+	 *                     	<li> allow_numbers (bool: false) - allow numbers
+	 * @return [type]      [description]
+	 */
+	function filterKeyword(string $str, array $opt = []){
+		
+		// allow numeric characters
+		$allow_numbers = !empty($opt['allow_numbers']);
+
+		// build regex
+		$regex = '/[^\- \p{L}'.($allow_numbers ? '0-9' : '').']/u';
+
+		// replace invalid characters with spaces
+		$str = preg_replace($regex, ' ', $str);
+		
+		// remove extra spaces
+		$str = preg_replace('/  +/', ' ', $str);
+
+		// trim
+		$str = trim($str);
+
+		// transform to upper case
+		$str = $this->ucFirst($str);
+		
+		return $str;
+	}
 }
