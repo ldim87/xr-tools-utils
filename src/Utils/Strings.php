@@ -80,7 +80,7 @@ class Strings
 	 */
 	function filter($str)
 	{
-		return htmlspecialchars($str, ENT_QUOTES);
+		return htmlspecialchars((string) $str, ENT_QUOTES);
 	}
 
 	/**
