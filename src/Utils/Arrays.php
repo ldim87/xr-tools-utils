@@ -360,9 +360,10 @@ class Arrays
 	 * @param array $array
 	 * @param array $columns
 	 * @param bool $list
+	 * @param bool $nonExistentNull
 	 * @return array|mixed
 	 */
-	function selectColumns(array $array, array $columns, bool $list = false)
+	function selectColumns(array $array, array $columns, bool $list = false, bool $nonExistentNull = false)
 	{
 		if (! $list) {
 			$array = [ $array ];
@@ -380,6 +381,8 @@ class Arrays
 
 				if (isset($item[ $get ])) {
 					$row[ $val ] = $item[ $get ];
+				} elseif ($nonExistentNull) {
+					$row[ $val ] = null;
 				}
 			}
 
@@ -560,6 +563,25 @@ class Arrays
 		}
 
 		return $newArray;
+	}
+
+	/**
+	 * @param array $arr
+	 * @param array $keys
+	 * @return bool
+	 */
+	function issetKeys(array $arr, array $keys): bool
+	{
+		$count = 0;
+
+		foreach ($keys as $key)
+		{
+			if (isset($arr[ $key ])) {
+				$count++;
+			}
+		}
+
+		return count($keys) == $count;
 	}
 
 	/**
