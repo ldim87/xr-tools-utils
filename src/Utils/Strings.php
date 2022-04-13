@@ -334,6 +334,9 @@ class Strings
 	 */
 	function roundToNearest($value, $roundTo)
 	{
+		// explicit int conversion
+		$value = (int) $value;
+
 		$mod = $value % $roundTo;
 
 		return floor($value + ($mod < ($roundTo / 2) ? -$mod : $roundTo - $mod));
