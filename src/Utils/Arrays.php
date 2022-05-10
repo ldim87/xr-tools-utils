@@ -379,7 +379,7 @@ class Arrays
 			{
 				$get = is_int($key) ? $val : $key;
 
-				if (isset($item[ $get ])) {
+				if (array_key_exists($get, $item)) {
 					$row[ $val ] = $item[ $get ];
 				} elseif ($nonExistentNull) {
 					$row[ $val ] = null;
@@ -582,6 +582,18 @@ class Arrays
 		}
 
 		return count($keys) == $count;
+	}
+
+	/**
+	 * @param array $arr
+	 * @param int|string $column
+	 * @param mixed $val
+	 * @return int|null
+	 */
+	function keyByColumn(array $arr, $column, $val): ?int
+	{
+		$res = array_search($val, array_column($arr, $column));
+		return is_int($res) ? $res : null;
 	}
 
 	/**
