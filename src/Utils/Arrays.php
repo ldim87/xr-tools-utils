@@ -501,21 +501,56 @@ class Arrays
 	}
 
 	/**
-	 * @param array $list
-	 * @param array $list2
-	 * @param string $column
-	 * @param array $defaultRow
+	 * Update targetList values with sourceList values given the column (item key) name
+	 * @param array  $targetList List to update
+	 * @param array  $sourceList List with updated data
+	 * @param string $column     Item key name by which to index the sourceList
+	 * @param array  $defaultRow Default item data if sourceList item is not found
 	 * @return array
 	 */
-	function mergeByColumn(array $list, array $list2, string $column, array $defaultRow = []): array
+	function updateListByColumn(array $targetList, array $sourceList, string $column, array $defaultRow = []): array
+	{
+		$sourceList = $this->index($sourceList, $column);
+
+		foreach ($targetList as $key => $row)
+		{
+			$info = $sourceList[ $row[$column] ] ?? $defaultRow;
+
+			$targetList[ $key ] = array_merge($targetList[ $key ], $info);
+		}
+
+		return $targetList;
+	}
+
+	/**
+	 * Merge two lists given the column name (item key) name
+	 * @param array  $list
+	 * @param array  $list2
+	 * @param string $column      Item key name by which to index the sourceList
+	 * @param array  $defaultRow  Default item data if sourceList item is not found
+	 * @return array
+	 */
+	function mergeListsByColumn(array $list, array $list2, string $column, array $defaultRow = []): array
 	{
 		$list2 = $this->index($list2, $column);
 
+		$merged_keys = [];
+
 		foreach ($list as $key => $row)
 		{
-			$info = $list2[ $row['id'] ] ?? $defaultRow;
+			$info = $list2[ $row[$column] ] ?? $defaultRow;
 
 			$list[ $key ] = array_merge($list[ $key ], $info);
+
+			$merged_keys[] = $row[$column];
+		}
+
+		// добавляем ключи из list2, которых нет в list
+		foreach ($list2 as $key => $row)
+		{
+			if(!in_array($key, $merged_keys)){
+				$list[] = $row;
+			}
 		}
 
 		return $list;
