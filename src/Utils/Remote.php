@@ -69,7 +69,7 @@ class Remote
 			CURLOPT_HEADER         => false,    // don't return headers
 			CURLOPT_FOLLOWLOCATION => true,     // follow redirects
 			CURLOPT_ENCODING       => "",       // handle all encodings
-			CURLOPT_USERAGENT      => "1000.menu Embed Spider", // who am i
+			CURLOPT_USERAGENT      => "Embed Spider", // who am i
 			CURLOPT_AUTOREFERER    => true,     // set referer on redirect
 			CURLOPT_CONNECTTIMEOUT => 10,      // timeout on connect
 			CURLOPT_TIMEOUT        => 20,      // timeout on response
