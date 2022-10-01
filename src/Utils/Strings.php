@@ -566,4 +566,40 @@ class Strings
 		
 		return $str;
 	}
+
+    /**
+     * @param string $from
+     * @return int|null
+     */
+    function convertToBytes(string $from): ?int
+    {
+        $units = [
+            'B'  => 0,
+            'KB' => 1, 'K' => 1,
+            'MB' => 2, 'M' => 2,
+            'GB' => 3, 'G' => 3,
+            'TB' => 4, 'T' => 4,
+            'PB' => 5, 'P' => 5,
+        ];
+
+        if (is_numeric( substr($from, -1))) {
+            return $from;
+        }
+
+        if (is_numeric( substr($from, -2, 1))) {
+            $suffix = strtoupper( substr($from, -1));
+            $number = substr($from, 0, -1);
+        } else {
+            $suffix = strtoupper( substr($from,-2));
+            $number = substr($from, 0, -2);
+        }
+
+        $exponent = $units[ $suffix ] ?? null;
+
+        if ($exponent === null) {
+            return null;
+        }
+
+        return $number * (1024 ** $exponent);
+    }
 }

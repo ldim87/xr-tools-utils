@@ -6,6 +6,8 @@
 
 namespace XrTools\Utils;
 
+use JetBrains\PhpStorm\ArrayShape;
+
 /**
  * Arrays utilities
  */
@@ -408,9 +410,9 @@ class Arrays
 	}
 
 	/**
-	 * @param $arr
-	 * @param $pattern
-	 * @param bool $by_keys
+	 * @param array $arr
+	 * @param string $pattern
+	 * @param bool $byKeys
 	 * @return array
 	 */
 	function grep(array $arr, string $pattern, bool $byKeys = false): array
@@ -629,6 +631,56 @@ class Arrays
 	{
 		$res = array_search($val, array_column($arr, $column));
 		return is_int($res) ? $res : null;
+	}
+
+	/**
+	 * @param array $arr
+	 * @param string|int|float $column
+	 * @param mixed $value
+	 * @return mixed
+	 */
+	function getByColumn(array $arr, string|int|float $column, mixed $value): mixed
+	{
+		foreach ($arr as $item)
+		{
+			if (is_array($item) && array_key_exists($column, $item) && $item[$column] == $value) {
+				return $item;
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * @param array $current
+	 * @param array $input
+	 * @return array
+	 */
+	function getChanges(array $current, array $input): array
+	{
+		$add = array_diff($input, $current);
+		$delete = array_diff($current, $input);
+
+		return [
+			'change' => $add || $delete,
+			'add' => $add,
+			'delete' => $delete
+		];
+	}
+
+	/**
+	 * @param array $arr
+	 * @param string $key
+	 * @param mixed $val
+	 * @return void
+	 */
+	function append(array &$arr, string $key, mixed $val): void
+	{
+		if (empty($arr[$key]) || ! is_array($arr[$key])) {
+			$arr[$key] = [];
+		}
+
+		$arr[$key] []= $val;
 	}
 
 	/**

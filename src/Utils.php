@@ -53,7 +53,10 @@ class Utils {
 	 * @return \XrTools\Utils\Files
 	 */
 	private $files; function files(){
-		return $this->files ?: $this->files = new Utils\Files($this->opt['files'] ?? null);
+		return $this->files ?: $this->files = new Utils\Files(
+            $this->strings(),
+            $this->opt['files'] ?? null
+        );
 	}
 
 	/**
