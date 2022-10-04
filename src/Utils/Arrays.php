@@ -654,15 +654,18 @@ class Arrays
 	/**
 	 * @param array $current
 	 * @param array $input
-	 * @return array
+	 * @return array|null
 	 */
-	function getChanges(array $current, array $input): array
+	function getChanges(array $current, array $input): ?array
 	{
 		$add = array_diff($input, $current);
 		$delete = array_diff($current, $input);
 
+		if (! $add && ! $delete) {
+			return null;
+		}
+
 		return [
-			'change' => $add || $delete,
 			'add' => $add,
 			'delete' => $delete
 		];
