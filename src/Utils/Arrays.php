@@ -68,7 +68,7 @@ class Arrays
 	 *                             		 - Works only in Selective mode!
 	 *                             		 Use direct value instead of array as item in the result array (e.g. when only one key in $selective).
 	 *                             </ul>
-	 * @return array             Groupped array
+	 * @return array             Grouped array
 	 */
 	function groupByKey($arr = array(), $index = '', $selective = array(), $params = array())
 	{
