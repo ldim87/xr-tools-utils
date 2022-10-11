@@ -503,6 +503,25 @@ class Arrays
 	}
 
 	/**
+	 * @param string|null $serialize
+	 * @return array
+	 */
+	function arrayFromSerialize(string $serialize = null): array
+	{
+		if (empty($serialize)) {
+			return [];
+		}
+
+		$arr = unserialize($serialize);
+
+		if (! is_array($arr)) {
+			return [];
+		}
+
+		return $arr;
+	}
+
+	/**
 	 * Update targetList values with sourceList values given the column (item key) name
 	 * @param array  $targetList List to update
 	 * @param array  $sourceList List with updated data
