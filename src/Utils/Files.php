@@ -11,7 +11,14 @@ namespace XrTools\Utils;
  */
 class Files
 {
-	/**
+    /**
+     * @param Strings $strings
+     */
+    function __construct(
+        private \XrTools\Utils\Strings $strings
+    ){}
+
+    /**
 	 * [dir_create description]
 	 * @param  [type] $new_path [description]
 	 * @return [type]           [description]
@@ -117,13 +124,13 @@ class Files
 	}
 
 	/**
-	 * Возвращает максимальный размер загружаемых файлов (в php.ini должно быть настроено в MB)
-	 * @return integer Max upload size from php.ini (must be set in MB)
+	 * Возвращает максимальный размер загружаемых файлов
+	 * @return int  Max upload size from php.ini
 	 */
-	function getUploadMaxSize()
-	{
-		$max_upload = (int) (ini_get('upload_max_filesize')) * 1048576;
-		$max_post = (int) (ini_get('post_max_size')) * 1048576;
+	function getUploadMaxSize(): int
+    {
+        $max_upload = $this->strings->convertToBytes( ini_get('upload_max_filesize'));
+        $max_post = $this->strings->convertToBytes( ini_get('post_max_size'));
 
 		return min($max_upload, $max_post);
 	}
