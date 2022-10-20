@@ -327,11 +327,11 @@ class Arrays
 	}
 
 	/**
-	 * @param $arr
+	 * @param array $arr
 	 * @param bool $unique
 	 * @return array
 	 */
-	function words($arr, $unique = true)
+	function words(array $arr, bool $unique = true): array
 	{
 		$arr = array_map('trim', $arr);
 
