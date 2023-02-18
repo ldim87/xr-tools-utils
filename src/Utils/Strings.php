@@ -567,6 +567,15 @@ class Strings
 		return $str;
 	}
 
+	/**
+	 * @param string $str
+	 * @return string|null
+	 */
+	function filterKey(string $str): string|null
+	{
+		return preg_replace('/[^a-z0-9-_]/iu', '', $str);
+	}
+
     /**
      * @param string $from
      * @return int|null
