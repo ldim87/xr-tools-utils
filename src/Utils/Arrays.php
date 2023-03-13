@@ -19,14 +19,8 @@ class Arrays
 	 * @param  integer $format [description]
 	 * @return [type]          [description]
 	 */
-	function print($arr, $format = 0)
+	function print($arr)
 	{
-		// форматирование через nl2br
-		if($format === 1){
-			return nl2br(ival(print_r($arr, true)));
-		}
-		
-		// дефолт
 		return '<pre>'.htmlspecialchars(print_r($arr,true)).'</pre>';
 	}
 
