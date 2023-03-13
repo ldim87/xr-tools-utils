@@ -268,9 +268,9 @@ class Strings
 	 * @param  int    $input_type  Тип входящих данных (default: INPUT_GET)
 	 * @param  int    $filter_type Тип фильтра (default: FILTER_SANITIZE_SPECIAL_CHARS)
 	 */
-	function filterInput(string $key, int $input_type = INPUT_GET, int $filter_type = FILTER_SANITIZE_SPECIAL_CHARS)
+	function filterInput(string $key, int $input_type = INPUT_GET, int $filter_type = FILTER_SANITIZE_SPECIAL_CHARS, int $filter_flags = 0)
 	{
-		return filter_input($input_type, $key, $filter_type);
+		return filter_input($input_type, $key, $filter_type, $filter_flags);
 	}
 
 	/**
