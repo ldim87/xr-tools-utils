@@ -611,4 +611,57 @@ class Strings
 
         return $number * (1024 ** $exponent);
     }
+
+	/**
+	 * @param string|null $string
+	 * @return bool
+	 */
+	function isJsonArray(string|null $string): bool
+	{
+		if (! $string) {
+			return false;
+		}
+
+		$res = json_decode($string, true);
+		return json_last_error() === JSON_ERROR_NONE && is_array($res);
+	}
+
+	/**
+	 * @param string $param
+	 * @return array
+	 */
+	function parseHttpQuery(string $param): array
+	{
+		$arrQuery = [];
+
+		if (substr_count($param, '?')) {
+			parse_str(
+				parse_url($param, PHP_URL_QUERY),
+				$arrQuery
+			);
+		} else {
+			parse_str($param, $arrQuery);
+		}
+
+		return $arrQuery;
+	}
+
+	/**
+	 * @param array $params
+	 * @return string
+	 */
+	function buildHttpQuery(array $params): string
+	{
+		return http_build_query($params, '', '&');
+	}
+
+	/**
+	 * @param mixed $var
+	 * @return string
+	 */
+	function md5(mixed $var): string
+	{
+		return md5( json_encode($var));
+	}
 }
+

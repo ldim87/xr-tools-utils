@@ -685,6 +685,29 @@ class Arrays
 	}
 
 	/**
+	 * @param array $array
+	 * @param array $keys
+	 * @return array
+	 */
+	function removeKeys(array $array, array $keys): array
+	{
+		return array_diff_key(
+			$array,
+			array_flip($keys)
+		);
+	}
+
+	/**
+	 * @param array $array
+	 * @param array $values
+	 * @return array
+	 */
+	function removeValues(array $array, array $values): array
+	{
+		return array_diff($array, $values);
+	}
+
+	/**
 	 * @param array $arr
 	 * @param string $key
 	 * @param mixed $val
