@@ -723,6 +723,18 @@ class Arrays
 	}
 
 	/**
+	 * @param array $arr
+	 * @param int $flags
+	 * @return array
+	 */
+	function sort(array $arr, int $flags = SORT_REGULAR): array
+	{
+		sort($arr, $flags);
+
+		return $arr;
+	}
+
+	/**
 	 * @param array $list
 	 * @param array $ids
 	 * @return array
