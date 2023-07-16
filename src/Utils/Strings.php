@@ -194,7 +194,7 @@ class Strings
 	 */
 	function isValidDate($date, $format = 'Y-m-d H:i:s')
 	{
-		$d = \DateTime::createFromFormat($format, $date);
+		$d = \DateTimeImmutable::createFromFormat($format, $date);
 		return $d && $d->format($format) == $date;
 	}
 
@@ -224,7 +224,7 @@ class Strings
 	 */
 	function convertToMysqlDate($date, $inputformat = 'd.m.Y')
 	{
-		$date = \DateTime::createFromFormat($inputformat, $date);
+		$date = \DateTimeImmutable::createFromFormat($inputformat, $date);
 		return $date->format('Y-m-d');
 	}
 
@@ -409,7 +409,7 @@ class Strings
 
 	/**
 	 * Транслитерация текста
-	 * @param  string  $str      String for transliteration (see conversion array $GLOBALS['arr_translit'])
+	 * @param  string  $str      String for transliteration
 	 * @param  boolean $url_name Prepare string for using in URL. Default: false (url non-friendly chars are kept)
 	 * @return string            Transliterated string
 	 */
