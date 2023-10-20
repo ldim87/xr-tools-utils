@@ -735,6 +735,28 @@ class Arrays
 	}
 
 	/**
+	 * @param array $arr
+	 * @param array $columns
+	 * @return array
+	 */
+	function removeColumns(array $arr, array $columns): array
+	{
+		if (! $columns) {
+			return $arr;
+		}
+
+		return array_map(function ($item) use ($columns){
+
+			foreach ($columns as $column) {
+				unset($item[$column]);
+			}
+
+			return $item;
+
+		}, $arr);
+	}
+
+	/**
 	 * @param array $list
 	 * @param array $ids
 	 * @return array
