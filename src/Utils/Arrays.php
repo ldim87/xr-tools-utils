@@ -736,13 +736,17 @@ class Arrays
 
 	/**
 	 * @param array $arr
-	 * @param array $columns
+	 * @param array|string $columns
 	 * @return array
 	 */
-	function removeColumns(array $arr, array $columns): array
+	function removeColumns(array $arr, array|string $columns): array
 	{
 		if (! $columns) {
 			return $arr;
+		}
+
+		if (! is_array($columns)) {
+			$columns = (array) $columns;
 		}
 
 		return array_map(function ($item) use ($columns){
