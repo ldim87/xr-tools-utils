@@ -761,6 +761,29 @@ class Arrays
 	}
 
 	/**
+	 * @param array $array
+	 * @param string|int $columnKey
+	 * @return array
+	 */
+	function uniqueColumn(array $array, string|int $columnKey): array
+	{
+		$uniqueArray = [];
+		$uniqueValues = [];
+
+		foreach ($array as $item)
+		{
+			$value = $item[$columnKey];
+
+			if (! in_array($value, $uniqueValues, true)) {
+				$uniqueValues[] = $value;
+				$uniqueArray[] = $item;
+			}
+		}
+
+		return $uniqueArray;
+	}
+
+	/**
 	 * @param array $list
 	 * @param array $ids
 	 * @return array
