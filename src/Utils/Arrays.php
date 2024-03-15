@@ -28,7 +28,7 @@ class Arrays
 	 * Выдача данных из массива по названию ключа
 	 * @param  array  	$arr     	Data array
 	 * @param  string  	$key     	Key name
-	 * @param  boolean 	$def_val 	Default value if data were not found
+	 * @param  mixed 	$def_val 	Default value if data were not found
 	 * @return mixed           		Array key value
 	 */
 	function key($arr, $key, $def_val = null)
