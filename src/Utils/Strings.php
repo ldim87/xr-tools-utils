@@ -167,7 +167,7 @@ class Strings
 	 * @param bool $header
 	 * @return bool
 	 */
-	function echoJson(array $array, bool $header = false)
+	function echoJson(array $array, bool $header = false): void
 	{
 		if (! empty($header)) {
 			header('Content-Type: application/json');
@@ -592,7 +592,7 @@ class Strings
         ];
 
         if (is_numeric( substr($from, -1))) {
-            return $from;
+            return intval($from);
         }
 
         if (is_numeric( substr($from, -2, 1))) {

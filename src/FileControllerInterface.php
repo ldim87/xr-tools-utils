@@ -13,10 +13,20 @@ namespace XrTools;
 interface FileControllerInterface
 {
 	/**
-	 * @param string $path
-	 * @param array $arr_lenta
-	 * @param array $extract
+	 * @param string $path      path to file
+	 * @param array $arr_lenta  pass variables in array
+	 * @param array $extract    extract variables by name
 	 * @return string|bool
 	 */
-	public function getFile(string $path, array $arr_lenta = [], array $extract = []);
+	function getFile(string $path, array $arr_lenta = [], array $extract = []);
+
+	/**
+	 * Echoes the result of the getFile method with error code if the result is false
+	 * @param string $path      path to file
+	 * @param int $err          http error code
+	 * @param array $arr_lenta  pass variables in array
+	 * @param array $extract    extract variables by name
+	 * @return void
+	 */
+	function reqFile(string $path, $err = 404, array $arr_lenta = [], array $extract = []);
 }
