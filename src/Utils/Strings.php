@@ -656,12 +656,31 @@ class Strings
 	}
 
 	/**
-	 * @param mixed $var
+	 * @param string $algo
+	 * @param mixed $val
+	 * @param bool $sort
 	 * @return string
 	 */
-	function md5(mixed $var): string
+	function hash(string $algo, mixed $val, bool $sort = false): string
 	{
-		return md5( json_encode($var));
+		if ($sort && is_array($val)) {
+			ksort($val);
+		}
+
+		return hash(
+			$algo,
+			json_encode($val, JSON_UNESCAPED_UNICODE)
+		);
+	}
+
+	/**
+	 * @param mixed $val
+	 * @param bool $sort
+	 * @return string
+	 */
+	function hashMd5(mixed $val, bool $sort = false): string
+	{
+		return $this->hash('md5', $val, $sort);
 	}
 }
 
