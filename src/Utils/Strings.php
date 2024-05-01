@@ -110,16 +110,20 @@ class Strings
 	 * @param  boolean $positive Demand number to be greater than 0
 	 * @return boolean           Status result
 	 */
-	function isNum($val, bool $positive = false): bool
+	function isNum(mixed $val, bool $positive = false): bool
 	{
+		if (! is_numeric($val)) {
+			return false;
+		}
+
 		return $val == '0' . $val && (! $positive || $val > 0);
 	}
 
 	/**
-	 * @param $val
+	 * @param mixed $val
 	 * @return bool
 	 */
-	function isID($val): bool
+	function isID(mixed $val): bool
 	{
 		return $this->isNum($val, true);
 	}
