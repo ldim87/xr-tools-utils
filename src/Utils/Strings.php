@@ -686,5 +686,28 @@ class Strings
 	{
 		return $this->hash('md5', $val, $sort);
 	}
+
+	/**
+	 * @param string $uripath
+	 * @return string
+	 */
+	function urlDecodePath(string $uripath): string
+	{
+		[$path, $query] = explode('?', $uripath, 2);
+
+		$query_decoded = '';
+
+		if($query){
+			foreach (explode('&', $query) as $chunk) {
+				$param = explode("=", $chunk);
+			
+				$decoded_params[] = urldecode($param[0]).'='.urldecode($param[1]);
+			}
+
+			$query_decoded = '?'.implode('&', $decoded_params);
+		}
+		
+		return $path.$query_decoded;
+	}
 }
 
