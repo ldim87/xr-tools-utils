@@ -686,5 +686,31 @@ class Strings
 	{
 		return $this->hash('md5', $val, $sort);
 	}
+
+	/**
+	 * @param string $pattern
+	 * @param string $string
+	 * @return bool
+	 */
+	function regexpMatch(string $pattern, string $string): bool
+	{
+		$res = [];
+		preg_match('~'.$pattern.'~isu', $string, $res);
+
+		return (bool) $res;
+	}
+
+	/**
+	 * @param string $pattern
+	 * @param string $string
+	 * @return bool
+	 */
+	function matchInSql(string $pattern, string $string): bool
+	{
+		return $this->regexpMatch(
+			$pattern,
+			str_replace(["\n","\t","\r",'`'], '', $string)
+		);
+	}
 }
 
