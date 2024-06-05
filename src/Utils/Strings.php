@@ -693,7 +693,7 @@ class Strings
 	 */
 	function urlDecodePath(string $uripath): string
 	{
-		[$path, $query] = explode('?', $uripath, 2);
+		[$path, $query] = explode('?', $uripath.'?');
 
 		$query_decoded = '';
 
