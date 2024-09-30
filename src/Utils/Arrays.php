@@ -478,12 +478,12 @@ class Arrays
 	}
 
 	/**
-	 * @param string|null $json
+	 * @param mixed|null $json
 	 * @return array
 	 */
-	function arrayFromJson(string $json = null): array
+	function arrayFromJson(mixed $json = null): array
 	{
-		if (empty($json)) {
+		if (! $json || ! is_string($json)) {
 			return [];
 		}
 
@@ -497,12 +497,12 @@ class Arrays
 	}
 
 	/**
-	 * @param string|null $serialize
+	 * @param mixed|null $serialize
 	 * @return array
 	 */
-	function arrayFromSerialize(string $serialize = null): array
+	function arrayFromSerialize(mixed $serialize = null): array
 	{
-		if (empty($serialize)) {
+		if (! $serialize || ! is_string($serialize)) {
 			return [];
 		}
 
