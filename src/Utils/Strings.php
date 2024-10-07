@@ -713,6 +713,31 @@ class Strings
 	/**
 	 * @param string $pattern
 	 * @param string $string
+	 * @param int|bool|null $get
+	 * @return string|array|null
+	 */
+	function regexpGet(string $pattern, string $string, int|bool|null $get = null): string|array|null
+	{
+		$res = [];
+		$match = preg_match('~'.$pattern.'~isu', $string, $res);
+
+		if ($match)
+		{
+			if ($get === true) {
+				return $res;
+			} elseif (is_int($get)) {
+				return $res[$get] ?? null;
+			} else {
+				return $res[1] ?? null;
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * @param string $pattern
+	 * @param string $string
 	 * @return bool
 	 */
 	function regexpMatch(string $pattern, string $string): bool
