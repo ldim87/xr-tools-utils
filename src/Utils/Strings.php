@@ -309,6 +309,15 @@ class Strings
 	}
 
 	/**
+	 * @param int|string $timestamp
+	 * @return string
+	 */
+	function timestampToMysqlDate(int|string $timestamp): string
+	{
+		return date('Y-m-d H:i:s', $timestamp);
+	}
+
+	/**
 	 * Replace the first occurrence of the given needle in subject string
 	 * @param  mixed  $search  Searched needle
 	 * @param  mixed  $replace The replacement string
