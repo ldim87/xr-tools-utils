@@ -769,5 +769,18 @@ class Strings
 			str_replace(["\n","\t","\r",'`'], '', $string)
 		);
 	}
+
+	/**
+	 * @param string $url
+	 * @return bool
+	 */
+	function isRelativeUrl(string $url): bool
+	{
+		return ! str_contains($url, '://') &&
+			! str_starts_with($url, '//') &&
+			! str_starts_with($url, '#') &&
+			! str_starts_with($url, 'mailto:') &&
+			! str_starts_with($url, 'tel:');
+	}
 }
 
