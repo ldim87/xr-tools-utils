@@ -782,5 +782,9 @@ class Strings
 			! str_starts_with($url, 'mailto:') &&
 			! str_starts_with($url, 'tel:');
 	}
-}
 
+	function makeRelativeUrl(string $url): string
+	{
+		return preg_replace('/^(https?:)?\/\/[^\/]*/i', '', $url);
+	}
+}
