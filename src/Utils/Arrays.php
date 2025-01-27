@@ -327,6 +327,7 @@ class Arrays
 	 */
 	function words(array $arr, bool $unique = true): array
 	{
+		$arr = array_map('strval', $arr);
 		$arr = array_map('trim', $arr);
 
 		$arr = array_filter($arr, function($item) {
