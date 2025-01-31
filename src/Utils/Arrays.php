@@ -405,6 +405,21 @@ class Arrays
 	}
 
 	/**
+	 * Сортирует массив по заданному массиву ключей
+	 * @param array $arr
+	 * @param array $keys
+	 * @return array
+	 */
+	function sortByPattern(array $arr, array $keys): array
+	{
+		$priority = array_flip($keys);
+
+		uksort($arr, fn($a, $b) => ($priority[$a] ?? PHP_INT_MAX) <=> ($priority[$b] ?? PHP_INT_MAX));
+
+		return $arr;
+	}
+
+	/**
 	 * @param array $arr
 	 * @param string $pattern
 	 * @param bool $byKeys
