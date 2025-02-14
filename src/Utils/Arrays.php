@@ -494,10 +494,10 @@ class Arrays
 	}
 
 	/**
-	 * @param mixed|null $json
+	 * @param mixed $json
 	 * @return array
 	 */
-	function arrayFromJson(mixed $json = null): array
+	function arrayFromJson(mixed $json): array
 	{
 		if (! $json || ! is_string($json)) {
 			return [];
@@ -513,10 +513,10 @@ class Arrays
 	}
 
 	/**
-	 * @param mixed|null $serialize
+	 * @param mixed $serialize
 	 * @return array
 	 */
-	function arrayFromSerialize(mixed $serialize = null): array
+	function arrayFromSerialize(mixed $serialize): array
 	{
 		if (! $serialize || ! is_string($serialize)) {
 			return [];

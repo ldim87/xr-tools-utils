@@ -141,7 +141,7 @@ class Files
 	 * @param  integer $expire_time File max expire time (in seconds)
 	 * @return string|boolean       File contents or FALSE if cache expired or not found
 	 */
-	function loadCacheFile(string $file_name, int $expire_time, string $dir_path = null)
+	function loadCacheFile(string $file_name, int $expire_time, ?string $dir_path = null)
 	{
 		// generate path
 		$file_path = ($dir_path ?? 'cache') . '/' . $file_name . '.html';
@@ -166,7 +166,7 @@ class Files
 	 * @param  string $content   File content to store
 	 * @return boolean           Result status
 	 */
-	function saveCacheFile($file_name, $content, string $dir_path = null)
+	function saveCacheFile($file_name, $content, ?string $dir_path = null)
 	{
 		$file_path = ($dir_path ?? 'cache') . '/' . $file_name . '.html';
 

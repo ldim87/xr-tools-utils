@@ -19,7 +19,7 @@ class TokenCSRF
 
 	protected $token = '';
 
-	function __construct(string $secretKey, string $varName = null)
+	function __construct(string $secretKey, ?string $varName = null)
 	{
 		$this->secretKey = $secretKey;
 		
@@ -37,7 +37,7 @@ class TokenCSRF
 	}
 
 	/**
-	 * @param null $format
+	 * @param $format
 	 * @return string
 	 */
 	function get($format = null)
@@ -62,10 +62,10 @@ class TokenCSRF
 	}
 
 	/**
-	 * @param null $inputToken
+	 * @param $inputToken
 	 * @return bool
 	 */
-	function check(string $inputToken = null)
+	function check(?string $inputToken = null)
 	{
 
 		$times = [

@@ -31,7 +31,7 @@ class DebugMessages
 	 * Constructor
 	 * @param array $opt See setOptions()
 	 */
-	function __construct($opt = null)
+	function __construct(?array $opt = null)
 	{
 		if(isset($opt)){
 			$this->setOptions($opt);
@@ -74,10 +74,10 @@ class DebugMessages
 	/**
 	 * @param string $message
 	 * @param string|null $method
-	 * @param null $data
+	 * @param $data
 	 * @param array $opt
 	 */
-	function log(string $message, string $method = null, $data = null, array $opt = []): void
+	function log(string $message, ?string $method = null, $data = null, array $opt = []): void
 	{
 		// prepend to message
 		$message = (isset($method) ? $method . ': ' : '') . $message;

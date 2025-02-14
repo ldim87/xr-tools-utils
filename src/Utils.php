@@ -20,7 +20,7 @@ class Utils {
 	 * Constructor
 	 * @param array $opt See setOptions()
 	 */
-	function __construct(array $opt = null){
+	function __construct(?array $opt = null){
 		if(isset($opt)){
 			$this->setOptions($opt);
 		}
@@ -54,8 +54,7 @@ class Utils {
 	 */
 	private $files; function files(){
 		return $this->files ?: $this->files = new Utils\Files(
-            $this->strings(),
-            $this->opt['files'] ?? null
+            $this->strings()
         );
 	}
 
@@ -63,14 +62,14 @@ class Utils {
 	 * @return \XrTools\Utils\Arrays
 	 */
 	private $arrays; function arrays(){
-		return $this->arrays ?: $this->arrays = new Utils\Arrays($this->opt['arrays'] ?? null);
+		return $this->arrays ?: $this->arrays = new Utils\Arrays();
 	}
 
 	/**
 	 * @return \XrTools\Utils\Remote
 	 */
 	private $remote; function remote(){
-		return $this->remote ?: $this->remote = new Utils\Remote($this->opt['remote'] ?? null);
+		return $this->remote ?: $this->remote = new Utils\Remote();
 	}
 	
 	/**

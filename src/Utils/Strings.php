@@ -21,7 +21,7 @@ class Strings
 	 * Constructor
 	 * @param array $opt See setOptions()
 	 */
-	function __construct($opt = null)
+	function __construct(?array $opt = null)
 	{
 		if(isset($opt)){
 			$this->setOptions($opt);
@@ -89,7 +89,7 @@ class Strings
 	 * @param bool $br
 	 * @return string
 	 */
-	function filterText(string $string, int $length = null, bool $br = true): string
+	function filterText(string $string, ?int $length = null, bool $br = true): string
 	{
 		if ($length) {
 			$string = mb_strimwidth($string, 0, $length, '...');
@@ -142,7 +142,7 @@ class Strings
 	 *                             	</ul>
 	 * @return string           	Converted number to bytes
 	 */
-	function nameToBit(float $num, int $decimals = null, int $precision = null)
+	function nameToBit(float $num, ?int $decimals = null, ?int $precision = null)
 	{
 		$precision = $precision ?? ceil(strlen($num) / 3);
 
@@ -502,7 +502,7 @@ class Strings
 	 * @param  string|null $thousands_sep
 	 * @return string
 	 */
-	function numberFormat (float $number, string $thousands_sep = null){
+	function numberFormat (float $number, ?string $thousands_sep = null){
 
 		$thousands_sep = $thousands_sep ?? $this->numformat_thousands_sep ?? " ";
 
@@ -517,7 +517,7 @@ class Strings
 	 * @param  string|null $thousands_sep
 	 * @return string
 	 */
-	function floatFormat (float $number, int $decimals = null, string $dec_point = null, string $thousands_sep = null){
+	function floatFormat (float $number, ?int $decimals = null, ?string $dec_point = null, ?string $thousands_sep = null){
 
 		$decimals = $decimals ?? $this->floatformat_decimals ?? 0;
 		$dec_point = $dec_point ?? $this->floatformat_dec_point ?? ".";
