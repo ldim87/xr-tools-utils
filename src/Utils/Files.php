@@ -108,20 +108,35 @@ class Files
 
 	/**
 	 * Определение типа файла (расширение)
-	 * @param  string $name File path or name
+	 * @param string $name File path or name
 	 * @return string       File extension
 	 */
-	function getType($name)
-	{
+	function getType(string $name): string
+    {
 		// разбиваем на массив
 		$name = explode('.', $name);
 
-		// выделяем расширения
-		$name = array_pop($name);
-
 		// возвращаем
-		return strtolower($name);
+		return strtolower($name[1] ?? '');
 	}
+
+    /**
+     * @param string $ext
+     * @param array $sys
+     * @return bool
+     */
+    function checkImgType(string $ext, array $sys = []): bool
+    {
+        $ext = mb_strtolower($ext);
+
+        $allowedImgExt = ['jpeg', 'jpg', 'png'];
+
+        if (! empty($sys['allow_gif'])) {
+            $allowedImgExt []= 'gif';
+        }
+
+        return in_array($ext, $allowedImgExt);
+    }
 
 	/**
 	 * Возвращает максимальный размер загружаемых файлов

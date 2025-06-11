@@ -650,6 +650,25 @@ class Arrays
 		return count($keys) == $count;
 	}
 
+    /**
+     * @param array $arr
+     * @param array $keys
+     * @return bool
+     */
+    function notEmptyKeys(array $arr, array $keys): bool
+    {
+        $count = 0;
+
+        foreach ($keys as $key)
+        {
+            if (! empty($arr[ $key ])) {
+                $count++;
+            }
+        }
+
+        return count($keys) == $count;
+    }
+
 	/**
 	 * @param array $arr
 	 * @param int|string $column
