@@ -78,4 +78,8 @@ class Utils {
 	private $dbg; function dbg(){
 		return $this->dbg ?: $this->dbg = new Utils\DebugMessages($this->opt['dbg'] ?? null);
 	}
+
+	private $images; function images(){
+		return $this->images ?: $this->images = new Utils\Images();
+	}
 }

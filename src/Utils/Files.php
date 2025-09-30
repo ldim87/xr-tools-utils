@@ -111,16 +111,16 @@ class Files
 	 * @param  string $name File path or name
 	 * @return string       File extension
 	 */
-	function getType($name)
+	function getType(string $name)
 	{
 		// разбиваем на массив
-		$name = explode('.', $name);
+		$name_arr = explode('.', $name);
 
 		// выделяем расширения
-		$name = array_pop($name);
+		$ext = isset($name_arr[1]) ? array_pop($name_arr) : '';
 
 		// возвращаем
-		return strtolower($name);
+		return strtolower($ext);
 	}
 
 	/**

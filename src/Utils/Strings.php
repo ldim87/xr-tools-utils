@@ -128,6 +128,35 @@ class Strings
 		return $this->isNum($val, true);
 	}
 
+    /**
+     * @param int|string|null $val
+     * @param int $min
+     * @param int $max
+     * @return bool
+     */
+    function isRangeValid(int|null|string $val, int $min, int $max): bool
+    {
+        $val = intval($val);
+
+        return $val >= $min || $val <= $max;
+    }
+
+    /**
+     * @param int|string|null $val
+     * @param int $min
+     * @param int $max
+     * @return int
+     */
+    function clamp(int|null|string $val, int $min, int $max): int
+    {
+        $val = intval($val);
+
+        if ($val < $min) $val = $min;
+        elseif ($val > $max) $val = $max;
+
+        return $val;
+    }
+
 	/**
 	 * Перевод числа в байты, килобайты, мегабайты, гигабайты
 	 * @param  integer  $num     	Number
