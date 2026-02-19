@@ -210,6 +210,26 @@ class Strings
 	}
 
 	/**
+	 * Obfuscates an email address by replacing parts of the name and domain with asterisks.
+	 * @param string $email The email address to obfuscate.
+	 * @return string The obfuscated email address.
+	 */
+	function obfuscateEmail(string $email): string
+	{
+		if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+			return $email; // Return as is if not a valid email.
+		}
+
+		[$name, $domain] = explode('@', $email);
+		[$domainName, $tld] = explode('.', $domain, 2);
+
+		$name = mb_substr($name, 0, 1) . '***' . mb_substr($name, -1);
+		$domainName = mb_substr($domainName, 0, 1) . '***' . mb_substr($domainName, -1);
+
+		return $name . '@' . $domainName . '.' . $tld;
+	}
+
+	/**
 	 * [jsonEncode description]
 	 * @param mixed $array [description]
 	 * @return false|string [type]        [description]
