@@ -234,9 +234,15 @@ class Strings
 	 * @param mixed $array [description]
 	 * @return false|string [type]        [description]
 	 */
-	function jsonEncode($array)
+	function jsonEncode($array, bool $escape = false)
 	{
-		return json_encode($array, JSON_UNESCAPED_UNICODE);
+		$json = json_encode($array, JSON_UNESCAPED_UNICODE);
+
+        if ($escape) {
+            $json = htmlspecialchars($json, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        }
+
+        return $json;
 	}
 
 	/**
