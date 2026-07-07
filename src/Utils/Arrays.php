@@ -631,6 +631,17 @@ class Arrays
 		return $newArray;
 	}
 
+    /**
+     * @param array $array
+     * @return mixed
+     */
+    function randItem(array $array): mixed
+    {
+        $array = $this->randItems($array, 1);
+
+        return $array ? array_shift($array) : null;
+    }
+
 	/**
 	 * @param array $arr
 	 * @param array $keys
