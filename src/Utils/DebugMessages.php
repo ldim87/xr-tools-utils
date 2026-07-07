@@ -120,6 +120,11 @@ class DebugMessages
 		return $this->messages;
 	}
 
+	function flushMessages()
+	{
+		$this->messages = [];
+	}
+
 	/**
 	 * @param string $traceString
 	 * @return string
