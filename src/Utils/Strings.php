@@ -842,8 +842,108 @@ class Strings
 			! str_starts_with($url, 'tel:');
 	}
 
-	function makeRelativeUrl(string $url): string
+    /**
+     * @param string $url
+     * @return string
+     */
+    function makeRelativeUrl(string $url): string
 	{
 		return preg_replace('/^(https?:)?\/\/[^\/]*/i', '', $url);
 	}
+
+    /**
+     * @param string $text
+     * @return int
+     */
+    function countWords(string $text): int
+    {
+        // \p{L} — любая буква (включая кириллицу и латиницу)
+        // \p{N} — цифры (если нужно считать "слова" типа "2024" или "Web3")
+        preg_match_all('/[\p{L}\p{N}]+(?:[-\'][\p{L}\p{N}]+)*/u', $text, $matches);
+
+        return count($matches[0]);
+    }
+
+    /**
+     * @param string $commentText  Текст
+     * @param array  $words        Слова/словосочетания-сигналы
+     * @param bool   $useStemming  Если true — обрезать окончания и ловить склонения, если false — искать слова строго как заданы
+     * @param bool   $countUnique  Если true — считаем количество уникальных сигналов (каждый максимум 1 раз), если false — считаем все вхождения всех сигналов в тексте
+     * @return int Количество найденных вхождений
+     */
+    function wordsFindCount(string $commentText, array $words, bool $useStemming = true, bool $countUnique = true): int
+    {
+        $words = array_unique($words);
+
+        // длинные словосочетания проверяем первыми
+        usort($words, fn($a, $b) => mb_strlen($b) <=> mb_strlen($a));
+
+        // 1) строим паттерны для всех сигналов заранее
+        $patterns = [];
+
+        foreach ($words as $word)
+        {
+            $list = preg_split('/\s+/u', trim($word));
+
+            $wordPatterns = [];
+
+            foreach ($list as $item)
+            {
+                if (! $useStemming) {
+                    // Без обрезки корня — ищем слово как есть, но с границами,
+                    // чтобы не зацепить середину другого слова
+                    $wordPatterns[] = '(?<![а-яёА-ЯЁ])' . preg_quote($item, '~') . '(?![а-яёА-ЯЁ])';
+                    continue;
+                }
+
+                $len = mb_strlen($item);
+                $cut = match (true) {
+                    $len <= 3 => 0,
+                    $len <= 5 => 1,
+                    $len <= 7 => 2,
+                    default   => 3,
+                };
+                $stem = mb_substr($item, 0, $len - $cut);
+
+                $wordPatterns []= '(?<![а-яёА-ЯЁ])' . preg_quote($stem, '~') . '[а-яёА-ЯЁ]*';
+            }
+
+            $patterns[$word] = implode('\s+', $wordPatterns);
+        }
+
+        // 2) считаем совпадения напрямую через preg_match / preg_match_all
+        $totalCount = 0;
+
+        foreach ($patterns as $pattern)
+        {
+            $regex = '~' . $pattern . '~ui';
+
+            if ($countUnique) {
+                // считаем сигнал максимум один раз, независимо от числа вхождений в тексте
+                if (preg_match($regex, $commentText) === 1) {
+                    $totalCount++;
+                }
+            } else {
+                // считаем все вхождения данного сигнала в тексте
+                $matchCount = preg_match_all($regex, $commentText);
+                $totalCount += ($matchCount !== false) ? $matchCount : 0;
+            }
+        }
+
+        return $totalCount;
+    }
+
+    /**
+     * Считает количество алфанумерических символов (a-Z, а-Я, 0-9)
+     * в строке, игнорируя пробелы, знаки препинания и прочее.
+     * @param string $text
+     * @return int
+     */
+    function countAlnumChars(string $text): int
+    {
+        // \p{L} — любая буква (в т.ч. кириллица), \p{N} — любая цифра
+        // Нужен модификатор u (UTF-8)
+        preg_match_all('/[\p{L}\p{N}]/u', $text, $matches);
+        return count($matches[0]);
+    }
 }
